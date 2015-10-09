@@ -31,7 +31,7 @@ class Devise::InvitationsController < DeviseController
 
   # GET /resource/invitation/accept?invitation_token=abcdef
   def edit
-    resource.invitation_token = params[:invitation_token]
+    resource.invitation_token = resource_params[:invitation_token]
     render :edit
   end
 
@@ -89,7 +89,7 @@ class Devise::InvitationsController < DeviseController
   end
 
   def resource_from_invitation_token
-    unless params[:invitation_token] && self.resource = resource_class.find_by_invitation_token(params[:invitation_token], true)
+    unless resource_params[:invitation_token] && self.resource = resource_class.find_by_invitation_token(resource_params[:invitation_token], true)
       set_flash_message(:alert, :invitation_token_invalid) if is_flashing_format?
       redirect_to after_sign_out_path_for(resource_name)
     end
@@ -104,4 +104,3 @@ class Devise::InvitationsController < DeviseController
   end
 
 end
-
